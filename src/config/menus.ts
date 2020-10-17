@@ -42,6 +42,7 @@ export default {
         'table',
         'code',
         'splitLine',
+        'todo',
         'undo',
         'redo',
     ],
