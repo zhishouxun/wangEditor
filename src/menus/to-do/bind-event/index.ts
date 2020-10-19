@@ -5,7 +5,7 @@
 
 import Editor from '../../../editor/index'
 import bindSwitchEvent from './switch-state'
-import bindenterDownEvent from './enter-extension'
+import bindEnterUpEvent from './enter-extension'
 
 /**
  * 绑定事件
@@ -15,7 +15,7 @@ function bindEvent(editor: Editor) {
     //  checkbox 点击事件
     bindSwitchEvent(editor)
     //  回车事件
-    bindenterDownEvent(editor)
+    bindEnterUpEvent(editor)
 }
 
 export default bindEvent

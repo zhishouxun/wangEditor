@@ -510,6 +510,18 @@ export class DomElement {
     }
 
     /**
+     * 获取首个子节点（只有 DOM 元素）
+     */
+    firstChild(): DomElement | null {
+        const elem = this.elems[0]
+        if (!elem) {
+            return null
+        }
+
+        return $(elem.firstChild)
+    }
+
+    /**
      * 增加子节点
      * @param $children 子节点
      */
