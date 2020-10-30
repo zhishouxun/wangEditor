@@ -469,6 +469,9 @@ class Text {
 
         //table click
         $textElem.on('click', (e: Event) => {
+            // 阻止点击表格事件冒泡，影响到range的变化
+            e.stopPropagation()
+
             // 存储元素
             let $dom: DomElement | null = null
 
