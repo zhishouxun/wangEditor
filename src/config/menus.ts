@@ -51,6 +51,7 @@ export default {
         'list',
         'justify',
         'quote',
+        'todo',
         'emoticon',
         'image',
         'video',

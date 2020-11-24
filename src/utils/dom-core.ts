@@ -738,7 +738,7 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     }
 
     /**
-     * 将该元素插入到某个元素后面
+     * 将该元素插入到selector元素后面
      * @param selector css 选择器
      */
     insertAfter(selector: string | DomElement): DomElement {
