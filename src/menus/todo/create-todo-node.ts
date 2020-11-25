@@ -1,4 +1,5 @@
 import $, { DomElement } from '../../utils/dom-core'
+import Editor from '../../editor'
 
 /**
  * 创建一个todo元素节点
@@ -28,4 +29,19 @@ function createTodo($childElem?: DomElement): DomElement {
     return $targetElem
 }
 
-export default createTodo
+/**
+ * 判断是否为Todo节点
+ * @param todo 需要判断的节点
+ */
+function isTodo(editor: Editor) {
+    const $selectElem = editor.selection.getSelectionContainerElem() as DomElement
+    const $selectChildren = $selectElem?.children()
+    const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
+    const topName = $topSelectElem.getNodeName()
+    console.log(topName)
+    console.log($selectChildren?.getNodeName())
+
+    return topName === 'UL' && $selectChildren?.getNodeName() == 'INPUT'
+}
+
+export { createTodo, isTodo }

@@ -2,7 +2,7 @@ import $, { DomElement } from '../../utils/dom-core'
 import BtnMenu from '../menu-constructors/BtnMenu'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
-import createTodo from './create-todo-node'
+import { createTodo, isTodo } from './create-todo-node'
 import bindEvent from './bind-event'
 
 class Todo extends BtnMenu implements MenuActive {
@@ -26,8 +26,16 @@ class Todo extends BtnMenu implements MenuActive {
         const nodeName = $topNodeElem?.getNodeName()
         if (nodeName === 'P') {
             const todoNode = createTodo($topNodeElem)
+            const child = todoNode.children()?.getNode() as Node
             todoNode.insertAfter($topNodeElem)
-            editor.selection.moveCursor(todoNode.getNode())
+            editor.selection.moveCursor(child)
+            $topNodeElem.remove()
+        } else if (isTodo(editor)) {
+            // 取消设置todolist
+            const br = $(`<p><br></p>`)
+            br.insertAfter($topNodeElem)
+            editor.selection.moveCursor(br.getNode())
+            console.log($topNodeElem)
             $topNodeElem.remove()
         }
     }
