@@ -11,7 +11,7 @@ function createTodo($childElem?: DomElement): DomElement {
         content = $childElem.text()
     }
     const $targetElem = $(
-        `<ul style="margin:0;"><li style="list-style:none;"><input type="checkbox">${content}</li></ul>`
+        `<ul style="margin:0;"><li style="list-style:none;"><input type="checkbox" style="margin-right:3px;">${content}</li></ul>`
     )
 
     // 设置checkbox点击状态的保存
@@ -23,10 +23,6 @@ function createTodo($childElem?: DomElement): DomElement {
             $input?.attr('checked', '')
         }
         checked = !checked
-    })
-
-    $targetElem.on('keyup', (e: KeyboardEvent) => {
-        if (e.keyCode !== 13) return
     })
 
     return $targetElem

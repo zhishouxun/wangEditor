@@ -3,6 +3,7 @@ import BtnMenu from '../menu-constructors/BtnMenu'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
 import createTodo from './create-todo-node'
+import bindEvent from './bind-event'
 
 class Todo extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
@@ -12,6 +13,7 @@ class Todo extends BtnMenu implements MenuActive {
                 </div>`
         )
         super($elem, editor)
+        bindEvent(editor)
     }
 
     /**
@@ -25,6 +27,7 @@ class Todo extends BtnMenu implements MenuActive {
         if (nodeName === 'P') {
             const todoNode = createTodo($topNodeElem)
             todoNode.insertAfter($topNodeElem)
+            editor.selection.moveCursor(todoNode.getNode())
             $topNodeElem.remove()
         }
     }
