@@ -6,18 +6,20 @@ import Editor from '../../editor'
  * @param editor 编辑器实例
  */
 function createTodo($childElem?: DomElement): DomElement {
-    let content = ''
     let checked = false
-    if ($childElem) {
-        content = $childElem.text()
-    }
+    let content: DomElement = $childElem?.childNodes()?.clone(true) as DomElement
+
     const $targetElem = $(
-        `<ul style="margin:0;"><li style="list-style:none;"><input type="checkbox" style="margin-right:3px;">${content}</li></ul>`
+        `<ul style="margin:0;"><li style="list-style:none;"><input type="checkbox" style="margin-right:3px;"></li></ul>`
     )
+    const input = $targetElem.childNodes()?.childNodes()?.getNode()
+    const $input = $(input)
+    if (content) {
+        content.insertAfter($input)
+    }
 
     // 设置checkbox点击状态的保存
-    $targetElem.on('click', () => {
-        const $input = $targetElem.children()?.childNodes()
+    $input.on('click', () => {
         if (checked) {
             $input?.removeAttr('checked')
         } else {
@@ -36,10 +38,8 @@ function createTodo($childElem?: DomElement): DomElement {
 function isTodo(editor: Editor) {
     const $selectElem = editor.selection.getSelectionContainerElem() as DomElement
     const $selectChildren = $selectElem?.children()
-    const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
-    const topName = $topSelectElem.getNodeName()
-    console.log(topName)
-    console.log($selectChildren?.getNodeName())
+    const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0] as DomElement
+    const topName = $topSelectElem?.getNodeName()
 
     return topName === 'UL' && $selectChildren?.getNodeName() == 'INPUT'
 }

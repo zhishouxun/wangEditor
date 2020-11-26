@@ -25,17 +25,20 @@ class Todo extends BtnMenu implements MenuActive {
         const $topNodeElem: DomElement = topNodeElem[topNodeElem.length - 1]
         const nodeName = $topNodeElem?.getNodeName()
         if (nodeName === 'P') {
-            const todoNode = createTodo($topNodeElem)
-            const child = todoNode.children()?.getNode() as Node
-            todoNode.insertAfter($topNodeElem)
-            editor.selection.moveCursor(child)
-            $topNodeElem.remove()
+            let $tempNode = $topNodeElem
+            topNodeElem.forEach($node => {
+                const todoNode = createTodo($node)
+                const child = todoNode.children()?.getNode() as Node
+                todoNode.insertAfter($tempNode)
+                editor.selection.moveCursor(child)
+                $tempNode = todoNode
+                $node.remove()
+            })
         } else if (isTodo(editor)) {
             // 取消设置todolist
             const br = $(`<p><br></p>`)
             br.insertAfter($topNodeElem)
             editor.selection.moveCursor(br.getNode())
-            console.log($topNodeElem)
             $topNodeElem.remove()
         }
     }
