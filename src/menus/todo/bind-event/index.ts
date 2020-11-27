@@ -8,12 +8,21 @@ import { createTodo, isTodo } from '../create-todo-node'
  */
 function bindEvent(editor: Editor) {
     /**
-     * todo回车事件
+     * todo的自定义回车事件
      * @param e 事件属性
      */
     function todoEnter(e: Event) {
         const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0]
-        const $newTodo = createTodo()
+        const $selectElem = editor.selection.getSelectionContainerElem()
+        const cursorPos: number = editor.selection.getCursorPos() as number
+        let content
+        if ($selectElem?.text().length !== cursorPos && cursorPos > 0) {
+            const txt = $selectElem?.text().slice(cursorPos)
+            const orginTxt = $selectElem?.text().slice(0, cursorPos) as string
+            $selectElem?.text(orginTxt)
+            content = $(`<p>${txt}</p>`)
+        }
+        const $newTodo = createTodo(content)
         const $newTodoChildren = $newTodo.childNodes()?.getNode() as Node
         // 判断是否为todo节点
         if (isTodo(editor)) {
@@ -28,7 +37,7 @@ function bindEvent(editor: Editor) {
         }
     }
     /**
-     * todo删除事件
+     * todo的自定义删除事件
      * @param e
      */
     function todoDel(e: Event) {

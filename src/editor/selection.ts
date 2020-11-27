@@ -258,6 +258,15 @@ class SelectionAndRange {
             this.restoreSelection()
         }
     }
+
+    /**
+     * 获取光标在当前选区的位置
+     */
+    public getCursorPos() {
+        const selection = window.getSelection()
+
+        return selection?.anchorOffset
+    }
 }
 
 export default SelectionAndRange

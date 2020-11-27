@@ -36,12 +36,13 @@ function createTodo($childElem?: DomElement): DomElement {
  * @param todo 需要判断的节点
  */
 function isTodo(editor: Editor) {
-    const $selectElem = editor.selection.getSelectionContainerElem() as DomElement
-    const $selectChildren = $selectElem?.children()
     const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0] as DomElement
     const topName = $topSelectElem?.getNodeName()
+    // input所在的dom节点位置
+    const childName = $topSelectElem.childNodes()?.childNodes()?.getNodeName()
+    console.log(topName)
 
-    return topName === 'UL' && $selectChildren?.getNodeName() == 'INPUT'
+    return topName === 'UL' && childName == 'INPUT'
 }
 
 export { createTodo, isTodo }
