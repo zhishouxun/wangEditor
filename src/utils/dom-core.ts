@@ -573,8 +573,19 @@ export class DomElement<T extends DomElementSelector = DomElementSelector> {
     /**
      * 获取当前元素节点
      */
-    getNode(): Node {
-        const elem = this.elems[0]
+    /**
+     * 根据元素位置获取元素节点（默认获取0位置的节点）
+     * @param n 元素节点位置
+     */
+    getNode(n?: number): Node {
+        let elem: Node
+
+        if (n) {
+            elem = this.elems[n]
+        } else {
+            elem = this.elems[0]
+        }
+
         return elem
     }
 

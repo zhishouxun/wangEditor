@@ -32,17 +32,32 @@ function createTodo($childElem?: DomElement): DomElement {
 }
 
 /**
- * 判断是否为Todo节点
- * @param todo 需要判断的节点
+ * 判断传入的单行顶级选区选取是不是todo
+ * @param editor 编辑器对象
  */
-function isTodo(editor: Editor) {
-    const $topSelectElem = editor.selection.getSelectionRangeTopNodes(editor)[0] as DomElement
+function isTodo($topSelectElem: DomElement) {
     const topName = $topSelectElem?.getNodeName()
-    // input所在的dom节点位置
-    const childName = $topSelectElem.childNodes()?.childNodes()?.getNodeName()
-    console.log(topName)
+    if (topName === 'UL') {
+        // input所在的dom节点位置
+        const childName = $topSelectElem.childNodes()?.childNodes()?.getNodeName()
+        return childName === 'INPUT'
+    }
+}
+/**
+ * 判断选中的内容是不是都是todo
+ * @param editor 编辑器对象
+ */
+function isAllTodo(editor: Editor) {
+    const $topSelectElems = editor.selection.getSelectionRangeTopNodes(editor)
 
-    return topName === 'UL' && childName == 'INPUT'
+    return $topSelectElems.every($topSelectElem => {
+        const topName = $topSelectElem?.getNodeName()
+        if (topName === 'UL') {
+            // input所在的dom节点位置
+            const childName = $topSelectElem.childNodes()?.childNodes()?.getNodeName()
+            return childName === 'INPUT'
+        }
+    })
 }
 
-export { createTodo, isTodo }
+export { createTodo, isTodo, isAllTodo }

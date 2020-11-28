@@ -2,7 +2,7 @@ import $, { DomElement } from '../../utils/dom-core'
 import BtnMenu from '../menu-constructors/BtnMenu'
 import Editor from '../../editor/index'
 import { MenuActive } from '../menu-constructors/Menu'
-import { createTodo, isTodo } from './create-todo-node'
+import { createTodo, isAllTodo } from './create-todo-node'
 import bindEvent from './bind-event'
 
 class Todo extends BtnMenu implements MenuActive {
@@ -21,28 +21,68 @@ class Todo extends BtnMenu implements MenuActive {
      */
     public clickHandler(): void {
         const editor = this.editor
-        const topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes(editor)
-        const $topNodeElem: DomElement = topNodeElem[topNodeElem.length - 1]
-        const nodeName = $topNodeElem?.getNodeName()
-        if (nodeName === 'P') {
-            let $tempNode = $topNodeElem
-            topNodeElem.forEach($node => {
-                const todoNode = createTodo($node)
-                const child = todoNode.children()?.getNode() as Node
-                todoNode.insertAfter($tempNode)
-                editor.selection.moveCursor(child)
-                $tempNode = todoNode
-                $node.remove()
-            })
-        } else if (isTodo(editor)) {
+        if (!isAllTodo(editor)) {
+            // 设置todolist
+            this.setTodo()
+            this.active()
+        } else {
             // 取消设置todolist
-            const br = $(`<p><br></p>`)
-            br.insertAfter($topNodeElem)
-            editor.selection.moveCursor(br.getNode())
-            $topNodeElem.remove()
+            this.cancelTodo()
+            this.unActive()
         }
     }
-    tryChangeActive() {}
+    tryChangeActive() {
+        if (isAllTodo(this.editor)) {
+            this.active()
+        } else {
+            this.unActive()
+        }
+    }
+
+    /**
+     * 设置todo
+     */
+    private setTodo() {
+        const editor = this.editor
+        const topNodeElem: DomElement[] = editor.selection.getSelectionRangeTopNodes(editor)
+        topNodeElem.forEach($node => {
+            const nodeName = $node?.getNodeName()
+            if (nodeName === 'P') {
+                const img = $node.children()?.get() as DomElement
+                // 对于图片进行特殊处理
+                if (img?.length > 0 && img?.getNodeName() === 'IMG') {
+                    return
+                }
+                const todoNode = createTodo($node)
+                const child = todoNode.children()?.getNode() as Node
+                todoNode.insertAfter($node)
+                editor.selection.moveCursor(child)
+                $node.remove()
+            }
+        })
+    }
+
+    /**
+     * 取消设置todo
+     */
+    private cancelTodo() {
+        const editor = this.editor
+        const $topNodeElems: DomElement[] = editor.selection.getSelectionRangeTopNodes(editor)
+
+        $topNodeElems.forEach($topNodeElem => {
+            const content = $topNodeElem.childNodes()?.childNodes()?.getNode(1)
+            const $p = $(`<p></p>`)
+            if (content?.nodeType === 3) {
+                $p.text(content.nodeValue as string)
+            } else {
+                const $content = $(content)
+                $p.append($content)
+            }
+            $p.insertAfter($topNodeElem)
+            editor.selection.moveCursor($p.getNode())
+            $topNodeElem.remove()
+        })
+    }
 }
 
 export default Todo
