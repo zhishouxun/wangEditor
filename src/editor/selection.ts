@@ -243,11 +243,11 @@ class SelectionAndRange {
      * 移动光标位置
      * 不能适配有子元素的节点   之后改进
      * @param {Node} node 元素节点
-     * @param {Boolean} toStart 为true光标在开始位置 为false在结束位置 默认在结束位置
+     * @param {number} position 光标的位置 默认在结束位置
      */
-    public moveCursor(node: Node, toStart: boolean = false) {
+    public moveCursor(node: Node, position?: number) {
         const range = this.getRange()
-        const pos = toStart ? 0 : node.childNodes.length
+        const pos: number = position || position === 0 ? position : node.childNodes.length
 
         if (!range) {
             return

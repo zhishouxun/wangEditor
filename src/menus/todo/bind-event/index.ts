@@ -48,9 +48,12 @@ function bindEvent(editor: Editor) {
         if (isTodo($topSelectElem)) {
             if ($topSelectElem.text() === '') {
                 e.preventDefault()
-                $(`<p><br></p>`).insertAfter($topSelectElem)
-                $topSelectElem.remove()
+                const $p = $(`<p><br></p>`)
+                $p.insertAfter($topSelectElem)
                 editor.selection.saveRange()
+                // 兼容firefox下光标位置问题
+                editor.selection.moveCursor($p.getNode(), 0)
+                $topSelectElem.remove()
             }
         }
     }
