@@ -9,7 +9,7 @@ class Todo extends BtnMenu implements MenuActive {
     constructor(editor: Editor) {
         const $elem = $(
             `<div class="w-e-menu">
-                    <i class="w-e-icon-quotes-left"></i>
+                    <i class="w-e-icon-checkbox-checked"></i>
                 </div>`
         )
         super($elem, editor)

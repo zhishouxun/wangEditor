@@ -51,7 +51,6 @@ export default {
         'list',
         'justify',
         'quote',
-        'todo',
         'emoticon',
         'image',
         'video',
@@ -60,6 +59,7 @@ export default {
         'splitLine',
         'undo',
         'redo',
+        'todo',
     ],
 
     fontNames: [
