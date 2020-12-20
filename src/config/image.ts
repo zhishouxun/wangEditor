@@ -32,6 +32,12 @@ export default {
     // 显示“插入网络图片”
     showLinkImg: true,
 
+    // 显示“插入图片alt”
+    showLinkImgAlt: false,
+
+    // 显示“插入图片href”
+    showLinkImgHref: false,
+
     // 插入图片成功之后的回调函数
     linkImgCallback: EMPTY_FN,
 

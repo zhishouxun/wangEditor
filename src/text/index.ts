@@ -460,12 +460,7 @@ class Text {
             const $target = $(target)
 
             //处理图片点击 判断是否是表情 根据 不存在class或者className!==eleImg、没有alt属性
-            if (
-                $target.getNodeName() === 'IMG' &&
-                (!$target.elems[0].getAttribute('class') ||
-                    $target.elems[0].getAttribute('class') !== 'eleImg') &&
-                !$target.elems[0].getAttribute('alt')
-            ) {
+            if ($target.getNodeName() === 'IMG' && !$target.elems[0].getAttribute('data-emoji')) {
                 // 当前点击的就是img
                 e.stopPropagation()
                 $img = $target

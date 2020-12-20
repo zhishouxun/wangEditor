@@ -47,6 +47,8 @@ export type ConfigType = {
     zIndexFullScreen: number
     showFullScreen: boolean
     showLinkImg: boolean
+    showLinkImgAlt: boolean
+    showLinkImgHref: boolean
     uploadImgAccept: string[]
     uploadImgServer: string
     uploadImgShowBase64: boolean
@@ -122,6 +124,12 @@ const defaultConfig = Object.assign(
     //链接校验的配置函数
     {
         linkCheck: function (text: string, link: string): string | boolean {
+            return true
+        },
+    },
+    //网络图片校验的配置函数
+    {
+        linkImgCheck: function (src: string, alt?: string, href?: string): string | boolean {
             return true
         },
     }
