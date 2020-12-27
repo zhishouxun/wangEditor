@@ -206,7 +206,6 @@ class Text {
     public text(val?: string): void | string {
         const editor = this.editor
         const $textElem = editor.$textElem
-
         // 没有 val ，是获取 text
         if (val == null) {
             let text = $textElem.text()
@@ -214,7 +213,6 @@ class Text {
             text = text.replace(/\u200b/gm, '')
             return text
         }
-
         // 有 val ，则是设置 text
         $textElem.text(`<p>${val}</p>`)
 
@@ -233,7 +231,12 @@ class Text {
             // 普通字符串，用 <p> 包裹
             html = `<p>${html}</p>`
         }
-        $textElem.append($(html))
+        console.log($textElem.html())
+        if ($textElem.html() === '<p><br></p>') {
+            this.html(html)
+        } else {
+            $textElem.append($(html))
+        }
 
         // 初始化选区，将光标定位到内容尾部
         editor.initSelection()
