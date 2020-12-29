@@ -223,6 +223,7 @@ class SelectionAndRange {
         if (toStart != null) {
             // 传入了 toStart 参数，折叠选区。如果没传入 toStart 参数，则忽略这一步
             range.collapse(toStart)
+            if (!toStart) this.editor.selection.moveCursor(elem, undefined, range)
         }
 
         // 存储 range
@@ -243,11 +244,15 @@ class SelectionAndRange {
      * 移动光标位置,默认情况下在尾部
      * 有一个特殊情况是firefox下的文本节点会自动补充一个br元素，会导致自动换行
      * 所以默认情况下在firefox下的文本节点会自动移动到br前面
+     * 新增newRange函数是为了处理一种特殊情况即：
+     * 进行光标移动时，Range暂时还未保存。这里新增一个参数用来传递还未进行saveRange
+     * 操作的range
      * @param {Node} node 元素节点
      * @param {number} position 光标的位置
+     * @param {Range} newRange 外部传递过来的range
      */
-    public moveCursor(node: Node, position?: number): void {
-        const range = this.getRange()
+    public moveCursor(node: Node, position?: number, newRange?: Range): void {
+        const range = newRange ? newRange : this.getRange()
         //对文本节点特殊处理
         let len: number =
             node.nodeType === 3 ? (node.nodeValue?.length as number) : node.childNodes.length
