@@ -1,7 +1,6 @@
 import menus from '../../../../src/config/menus'
 // 按钮位置
 const pos = menus.menus.indexOf('todo')
-
 describe('添加todo', () => {
     beforeEach(() => {
         cy.visit('/examples/index.html')
@@ -11,7 +10,7 @@ describe('添加todo', () => {
         cy.get('@Editable').clear()
     })
 
-    const text = 'text1234'
+    const text = 'text1pos4'
 
     it('点击todo菜单插入todo样式', () => {
         cy.get('@Editable').type(text)

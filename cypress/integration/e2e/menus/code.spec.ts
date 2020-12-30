@@ -1,5 +1,5 @@
 import menus from '../../../../src/config/menus'
-// 图片位置
+// 按钮位置
 const pos = menus.menus.indexOf('code')
 describe('插入代码', () => {
     beforeEach(() => {
