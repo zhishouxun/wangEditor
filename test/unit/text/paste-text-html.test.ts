@@ -15,6 +15,7 @@ describe('text utils getPasteImgs test', () => {
         pasteTextHtml(editor, pasteEvents)
 
         expect(pasteEvents.length).toBeGreaterThanOrEqual(1)
+        editor.destroy()
     })
 
     test('如果当前选区所在元素不存在，执行 pasteEvents 的函数直接返回', () => {
@@ -33,6 +34,7 @@ describe('text utils getPasteImgs test', () => {
             const res = fn(new Event(''))
             expect(res).toBeUndefined()
         })
+        editor.destroy()
     })
 
     test('如果当前选区所在元素为CODE， 则执行用户配置的 pasteTextHandle 函数', () => {
@@ -61,6 +63,7 @@ describe('text utils getPasteImgs test', () => {
 
         expect(mockPasteTextHandle).toBeCalledWith('1234255<br>')
         expect(document.execCommand).toBeCalledWith('insertHTML', false, 'mock123\n')
+        editor.destroy()
     })
 
     test('如果复制的文本内容是 url，则插入链接', () => {
@@ -91,6 +94,7 @@ describe('text utils getPasteImgs test', () => {
             false,
             `<a href="${pasteText}" target="_blank">${pasteText}</a>`
         )
+        editor.destroy()
     })
 
     test('如果复制的内容没有 html 内容，直接返回', () => {
@@ -114,6 +118,7 @@ describe('text utils getPasteImgs test', () => {
             const res = fn(new Event(''))
             expect(res).toBeUndefined()
         })
+        editor.destroy()
     })
 
     test('如果复制的内容没有 html 内容，直接返回', () => {
@@ -137,6 +142,7 @@ describe('text utils getPasteImgs test', () => {
             const res = fn(new Event(''))
             expect(res).toBeUndefined()
         })
+        editor.destroy()
     })
 
     test('如果复制内容有 html， 则执行用户配置的 pasteTextHandle 函数，并且会将非 p 标签的元素替换为 p 标签', () => {
@@ -165,6 +171,7 @@ describe('text utils getPasteImgs test', () => {
 
         expect(mockPasteTextHandle).toBeCalledWith('<div>1234</div>')
         expect(document.execCommand).toBeCalledWith('insertHTML', false, '<p>123</p><p><br></p>')
+        editor.destroy()
     })
 
     test('如果复制内容有 html， 第一次插入 html 报错会使用 pasteText 再执行一次', () => {
@@ -200,5 +207,6 @@ describe('text utils getPasteImgs test', () => {
         expect(mockPasteTextHandle).toBeCalledWith('<div>1234</div>')
         expect(mockPasteTextHandle).toBeCalledWith('<div>12345</div>')
         expect(document.execCommand).toBeCalledWith('insertHTML', false, '<p>123</p><p><br></p>')
+        editor.destroy()
     })
 })

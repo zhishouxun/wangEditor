@@ -12,6 +12,10 @@ describe('设置全屏', () => {
         editor = createEditor(document, 'div1')
     })
 
+    afterEach(() => {
+        editor.destroy()
+    })
+
     test('编辑器默认初始化全屏菜单', () => {
         const toolbarSelector = editor.$toolbarElem.elems[0].className
         const fullMenuEl = $(`.${toolbarSelector}`).find(FULLSCREEN_MENU_CLASS_SELECTOR)
@@ -20,19 +24,23 @@ describe('设置全屏', () => {
     })
 
     test('编辑器区和菜单分离的编辑器不初始化全屏菜单', () => {
+        editor.destroy()
         const seprateModeEditor = createEditor(document, 'div1', 'div2')
         const toolbarSelector = seprateModeEditor.$toolbarElem.selector as string
         const fullMenuEl = $(toolbarSelector).find(FULLSCREEN_MENU_CLASS_SELECTOR)
 
         expect(fullMenuEl.length).toBe(0)
+        seprateModeEditor.destroy()
     })
 
     test('编辑器配置 showFullScreen 为false时不初始化全屏菜单', () => {
+        editor.destroy()
         const seprateModeEditor = createEditor(document, 'div1', '', { showFullScreen: false })
         const toolbarSelector = seprateModeEditor.$toolbarElem.selector as string
         const fullMenuEl = $(toolbarSelector).find(FULLSCREEN_MENU_CLASS_SELECTOR)
 
         expect(fullMenuEl.length).toBe(0)
+        seprateModeEditor.destroy()
     })
 
     test('调用 setFullScreen 设置编辑器全屏模式', () => {

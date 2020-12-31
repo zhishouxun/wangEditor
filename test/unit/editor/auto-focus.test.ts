@@ -12,13 +12,15 @@ const $P = $('<p></p>')
 $P.append($SPAN)
 
 test('auto-focus: false', () => {
-    createEditor(document, 'div1', '', { focus: false })
+    const editor = createEditor(document, 'div1', '', { focus: false })
     const rangeCount = window?.getSelection()?.rangeCount
     expect(rangeCount).toBe(0)
+    editor.destroy()
 })
 
 test('auto-focus: true', () => {
-    createEditor(document, 'div1')
+    const editor = createEditor(document, 'div1')
     const rangeCount = window?.getSelection()?.rangeCount
     expect(rangeCount).toBe(1)
+    editor.destroy()
 })
