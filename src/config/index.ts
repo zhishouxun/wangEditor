@@ -114,7 +114,7 @@ const defaultConfig = Object.assign(
     //网络图片校验的配置函数
     {
         linkImgCheck: function (src: string): string | boolean {
-            return true
+            return src
         },
     }
 )
