@@ -54,6 +54,8 @@ type TextEventHooks = {
     dropListMenuHoverEvents: (() => void)[]
     /** 点击分割线时 */
     splitLineEvents: ((e: DomElement) => void)[]
+    /** 视频点击事件 */
+    videoClickEvents: ((e: DomElement) => void)[]
 }
 
 class Text {
@@ -85,6 +87,7 @@ class Text {
             menuClickEvents: [],
             dropListMenuHoverEvents: [],
             splitLineEvents: [],
+            videoClickEvents: [],
         }
     }
 
@@ -256,6 +259,14 @@ class Text {
 
         // 按键后保存
         $textElem.on('keyup', saveRange)
+
+        // 点击后保存，为了避免被多次执行而导致造成浪费，这里对 click 使用一次性绑定
+        function onceClickSaveRange() {
+            saveRange()
+            $textElem.off('click', onceClickSaveRange)
+        }
+        $textElem.on('click', onceClickSaveRange)
+
         $textElem.on('mousedown', () => {
             // mousedown 状态下，鼠标滑动到编辑区域外面，也需要保存选区
             $textElem.on('mouseleave', saveRange)
@@ -528,7 +539,7 @@ class Text {
             const target = e.target as HTMLElement
 
             //获取最祖父元素
-            $dom = $(target).parentUntil('TABLE', target)
+            $dom = $(target).parentUntilEditor('TABLE', editor, target)
 
             // 没有table范围内，则返回
             if (!$dom) return
@@ -542,6 +553,27 @@ class Text {
             if (e.keyCode !== 13) return
             const enterDownEvents = eventHooks.enterDownEvents
             enterDownEvents.forEach(fn => fn(e))
+        })
+
+        // 视频 click
+        $textElem.on('click', (e: Event) => {
+            // 存储视频
+            let $video: DomElement | null = null
+
+            const target = e.target as HTMLElement
+            const $target = $(target)
+
+            //处理视频点击 简单的video 标签
+            if ($target.getNodeName() === 'VIDEO') {
+                // 当前点击的就是视频
+                e.stopPropagation()
+                $video = $target
+            }
+
+            if (!$video) return // 没有点击视频，则返回
+
+            const videoClickEvents = eventHooks.videoClickEvents
+            videoClickEvents.forEach(fn => fn($video as DomElement))
         })
     }
 }

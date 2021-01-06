@@ -49,6 +49,7 @@ export default {
         'backColor',
         'link',
         'list',
+        'todo',
         'justify',
         'quote',
         'emoticon',
