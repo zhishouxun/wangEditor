@@ -31,6 +31,7 @@ describe('Img menu paste-img', () => {
         bindPasteImgEvent(editor)
 
         expect(editor.txt.eventHooks.pasteEvents.length).toBeGreaterThanOrEqual(1)
+        editor.destroy()
     })
 
     test('调用 bindPasteImgEvent 方法给编辑器绑定paste事件后，执行pasteEvent里面的函数会触发上传', () => {
@@ -56,6 +57,7 @@ describe('Img menu paste-img', () => {
 
         expect(UploadImg).toBeCalled()
         expect(mockUploadImg).toBeCalledWith(mockFiles)
+        editor.destroy()
     })
 
     test('调用 bindPasteImgEvent 方法给编辑器绑定paste事件后，执行pasteEvent里面的函数会如果粘贴板没有图片文件，则不会触发上传逻辑', () => {
@@ -80,6 +82,7 @@ describe('Img menu paste-img', () => {
         })
 
         expect(UploadImg).not.toBeCalled()
+        editor.destroy()
     })
 
     test('调用 bindPasteImgEvent 方法给编辑器绑定paste事件后，执行pasteEvent里面的函数如果粘贴的内容有HTML会直接返回', () => {
@@ -104,6 +107,7 @@ describe('Img menu paste-img', () => {
         })
 
         expect(UploadImg).not.toBeCalled()
+        editor.destroy()
     })
 
     test('调用 bindPasteImgEvent 方法给编辑器绑定paste事件后，执行pasteEvent里面的函数如果粘贴的内容有Text会直接返回', () => {
@@ -133,5 +137,6 @@ describe('Img menu paste-img', () => {
         })
 
         expect(UploadImg).not.toBeCalled()
+        editor.destroy()
     })
 })

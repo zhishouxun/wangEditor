@@ -19,6 +19,10 @@ describe('Editor history html cache', () => {
         htmlCache.observe()
     })
 
+    afterEach(() => {
+        editor.destroy()
+    })
+
     test('可以使用 HtmlCache 实现编辑器内容撤回', () => {
         const testHtml1 = '<span>123</span>'
         const testHtml2 = '<h1>456</h1>'

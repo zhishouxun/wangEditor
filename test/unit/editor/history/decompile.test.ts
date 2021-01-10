@@ -15,6 +15,10 @@ describe('Editor history decompile', () => {
         editor = createEditor(document, 'div1')
     })
 
+    beforeEach(() => {
+        editor.destroy()
+    })
+
     test('可以通过revoke方法撤销编辑器设置的html', done => {
         expect.assertions(3)
 

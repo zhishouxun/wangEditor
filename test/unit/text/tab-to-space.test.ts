@@ -15,6 +15,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
         tabHandler(editor, fn)
 
         expect(fn.length).toBe(1)
+        editor.destroy()
     })
 
     test('能绑定一个处理 tab 的函数，如果不支持 insertHTML 指令，则不执行后续的插入操作', () => {
@@ -32,6 +33,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
         })
 
         expect(document.execCommand).not.toBeCalled()
+        editor.destroy()
     })
 
     test('能绑定一个处理 tab 的函数，如果没有选区内容，则不执行后续的插入操作', () => {
@@ -52,6 +54,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
         })
 
         expect(document.execCommand).not.toBeCalled()
+        editor.destroy()
     })
 
     test('能绑定一个处理 tab 的函数，如果有选区内容，并且是正常的HTML元素，则插入空格', () => {
@@ -74,6 +77,7 @@ describe('editor.text event-hooks tab-to-space test', () => {
         })
 
         expect(document.execCommand).toBeCalledWith('insertHTML', false, '&nbsp;&nbsp;&nbsp;&nbsp;')
+        editor.destroy()
     })
 
     describe('当选区内容父元素为code，pre，hljs或者选区元素为code的情况，则插入特殊的空格', () => {
@@ -89,6 +93,10 @@ describe('editor.text event-hooks tab-to-space test', () => {
             tabHandler(editor, fn)
 
             jest.spyOn(editor.cmd, 'queryCommandSupported').mockImplementation(() => true)
+        })
+
+        afterEach(() => {
+            editor.destroy()
         })
 
         // mock getSelectionContainerElem return value

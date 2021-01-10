@@ -9,6 +9,10 @@ describe('Editor disable', () => {
         editor = createEditor(document, 'div1')
     })
 
+    afterEach(() => {
+        editor.destroy()
+    })
+
     test('编辑器可以被禁用', () => {
         const disabledObj = disableInit(editor)
 

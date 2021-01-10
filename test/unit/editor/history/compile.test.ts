@@ -44,6 +44,7 @@ describe('Editor history compile', () => {
         Object.defineProperty(UA, 'isFirefox', {
             value: originalValue,
         })
+        editor.destroy()
     })
 
     test('可以将MutationRecord生成Compile数据', done => {
@@ -74,7 +75,7 @@ describe('Editor history compile', () => {
         const observer = new MutationObserver((mutationList: MutationRecord[]) => {
             const compileData = compile(mutationList)
             expect(compileData instanceof Array).toBeTruthy()
-            expect(compileData.length).toBe(4)
+            expect(compileData.length).toBe(5)
             done()
         })
 
