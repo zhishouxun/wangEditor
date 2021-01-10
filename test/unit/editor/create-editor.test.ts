@@ -8,11 +8,13 @@ import createEditor from '../../helpers/create-editor'
 test('创建一个编辑器实例', () => {
     const editor = createEditor(document, 'div1')
     expect(editor.id).not.toBeNull()
+    editor.destroy()
 })
 
 test('创建一个编辑器实例，toolbar 和 text 分离', () => {
     const editor = createEditor(document, 'div1', 'div2')
     expect(editor.id).not.toBeNull()
+    editor.destroy()
 })
 
 test('一个页面创建多个编辑器实例', () => {
