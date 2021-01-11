@@ -27,7 +27,7 @@ export type UploadVideoHooksType = {
 export default {
     // 插入网络视频前的回调函数
     onlineVideoCheck: (video: string): string | boolean => {
-        return true
+        return video
     },
 
     // 插入网络视频成功之后的回调函数
