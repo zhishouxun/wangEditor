@@ -42,21 +42,41 @@ class Menus {
 
         config.menus.forEach(menuKey => {
             const MenuConstructor = this.constructorList[menuKey] // 暂用 any ，后面再替换
-            if (MenuConstructor == null || typeof MenuConstructor !== 'function') {
-                // 必须是 class
-                return
-            }
-            // 创建 menu 实例，并放到 menuList 中
-            const m = new MenuConstructor(this.editor)
-            m.key = menuKey
-            this.menuList.push(m)
+            this._initMenuList(menuKey, MenuConstructor)
         })
+
+        //全局注册
+        for (let [menuKey, menuFun] of Object.entries(Editor.globalCustomMenuConstructorList)) {
+            const MenuConstructor = menuFun // 暂用 any ，后面再替换
+            this._initMenuList(menuKey, MenuConstructor)
+        }
 
         // 渲染 DOM
         this._addToToolbar()
 
         // 添加菜单栏tooltips
         this._bindMenuTooltips()
+    }
+
+    // 创建 menu 实例，并放到 menuList 中
+    private _initMenuList(menuKey: String, MenuConstructor: any): void {
+        const i18nPrefix = 'menus.code.'
+        const t = (text: string, prefix: string = i18nPrefix): string => {
+            return this.editor.i18next.t(prefix + text)
+        }
+        const config = this.editor.config
+
+        if (MenuConstructor == null || typeof MenuConstructor !== 'function') {
+            // 必须是 class
+            return
+        }
+        if (this.menuList.some(menu => menu.key === menuKey)) {
+            config.customAlert(`${t('菜单名称重复')}: \n` + menuKey, 'warning')
+        } else {
+            const m = new MenuConstructor(this.editor)
+            m.key = menuKey
+            this.menuList.push(m)
+        }
     }
 
     // 绑定菜单栏tooltips
